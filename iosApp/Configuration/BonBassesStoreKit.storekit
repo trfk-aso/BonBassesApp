@@ -1,0 +1,87 @@
+{
+  "identifier" : "BonBassesStoreKit",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "timer10",
+      "localizations" : [
+        {
+          "description" : "Get extra time to write. Save all the ideas, plot twists, and emotions. Continue your story without rushing!",
+          "displayName" : "10 Minute Timer",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.bonbasses.timer10",
+      "referenceName" : "10 Minute Timer",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "canvaspack",
+      "localizations" : [
+        {
+          "description" : "Unlock both Typewriter and Focus canvases. Get classic typewriter aesthetic and minimalist focus mode for deep concentration.",
+          "displayName" : "Canvas Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.bonbasses.canvaspack",
+      "referenceName" : "Canvas Pack",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

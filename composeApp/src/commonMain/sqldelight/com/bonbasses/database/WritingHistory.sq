@@ -1,0 +1,66 @@
+CREATE TABLE WritingHistory (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL DEFAULT 'Untitled',
+    storyText TEXT NOT NULL,
+    words TEXT NOT NULL,
+    genre TEXT NOT NULL,
+    charCount INTEGER NOT NULL,
+    wordCount INTEGER NOT NULL,
+    score INTEGER,
+    isFavorite INTEGER NOT NULL DEFAULT 0,
+    createdAt INTEGER NOT NULL,
+    startTime INTEGER NOT NULL,
+    endTime INTEGER,
+    duration INTEGER,
+    outcome TEXT NOT NULL DEFAULT 'draft'
+);
+
+CREATE INDEX idx_favorite ON WritingHistory(isFavorite);
+
+CREATE INDEX idx_created_at ON WritingHistory(createdAt DESC);
+
+CREATE INDEX idx_genre ON WritingHistory(genre);
+
+insertHistory:
+INSERT INTO WritingHistory (title, storyText, words, genre, charCount, wordCount, score, isFavorite, createdAt, startTime, endTime, duration, outcome)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+getAllHistory:
+SELECT * FROM WritingHistory
+ORDER BY createdAt DESC;
+
+getFavoriteHistory:
+SELECT * FROM WritingHistory
+WHERE isFavorite = 1
+ORDER BY createdAt DESC;
+
+getHistoryByGenre:
+SELECT * FROM WritingHistory
+WHERE genre = ?
+ORDER BY createdAt DESC;
+
+getHistoryById:
+SELECT * FROM WritingHistory
+WHERE id = ?;
+
+toggleFavorite:
+UPDATE WritingHistory
+SET isFavorite = CASE WHEN isFavorite = 1 THEN 0 ELSE 1 END
+WHERE id = ?;
+
+updateTitle:
+UPDATE WritingHistory
+SET title = ?
+WHERE id = ?;
+
+deleteHistory:
+DELETE FROM WritingHistory
+WHERE id = ?;
+
+deleteAllHistory:
+DELETE FROM WritingHistory;
+
+getLastUsedGenre:
+SELECT genre FROM WritingHistory
+ORDER BY createdAt DESC
+LIMIT 1;

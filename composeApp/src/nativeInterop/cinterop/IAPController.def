@@ -1,0 +1,3 @@
+headers = IAPController.h
+headerFilter = IAPController.h
+package = com.bonbasses.iap.native
