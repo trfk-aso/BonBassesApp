@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -37,14 +38,14 @@ fun AboutScreen(
     onBackClick: () -> Unit = {},
     onNavigateToTab: (String) -> Unit = {}
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(getBackgroundBrush())
     ) {
-
         AboutTopBar(onBackClick = onBackClick)
-        
 
         Column(
             modifier = Modifier
@@ -55,17 +56,14 @@ fun AboutScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(4.dp))
-            
 
             Image(
                 painter = painterResource(Res.drawable.logo_bonbasses),
                 contentDescription = "BonBasses Logo",
-                modifier = Modifier
-                    .size(200.dp)
+                modifier = Modifier.size(200.dp)
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
 
             Text(
                 text = "Write a micro-story in 7 minutes. We give you 10 prompt words, you write. Hit Check to get instant feedback: a simple 3-5 score and a handful of warm, encouraging phrases. Everything works offline. Your drafts and results stay on your device.",
@@ -77,9 +75,9 @@ fun AboutScreen(
                 lineHeight = 20.sp,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             Text(
                 text = "No accounts. No cloud.\nYour data stays on your device.",
                 color = AppColors.TitleText,
@@ -89,25 +87,24 @@ fun AboutScreen(
                 textAlign = TextAlign.Center,
                 lineHeight = 20.sp
             )
-            
+
             Spacer(modifier = Modifier.height(20.dp))
-            
 
-            AboutButton(
+            Text(
                 text = "Privacy Policy",
-                onClick = {  }
+                color = Color(0xFFAD8E7D),
+                fontSize = ResponsiveAppTypography.BodyMedium,
+                fontFamily = RobotoSlabFontFamily(),
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .clickable {
+                        uriHandler.openUri("https://smartxbase.top/8trr6P")
+                    }
+                    .padding(vertical = 12.dp)
             )
-            
-            Spacer(modifier = Modifier.height(10.dp))
-            
 
-            AboutButton(
-                text = "Terms of Use",
-                onClick = {  }
-            )
-            
             Spacer(modifier = Modifier.height(16.dp))
-            
 
             Text(
                 text = "App Version 1.1",
@@ -117,10 +114,9 @@ fun AboutScreen(
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
         }
-        
 
         AppBottomNavigation(
             selectedTab = "about",
