@@ -9,14 +9,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -141,9 +144,10 @@ fun SettingsScreen(
                     fontFamily = RobotoSlabFontFamily(),
                     fontWeight = FontWeight.Normal
                 )
-                
+
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     TimerLengthChip(
                         text = "7 min",
@@ -153,13 +157,32 @@ fun SettingsScreen(
                     )
 
                     val isTimerPurchased = purchaseState["com.bonbasses.timer10"] == true
-                    TimerLengthChip(
-                        text = "10 min",
-                        isSelected = uiState.timerLength == 10,
-                        isUpgrade = !isTimerPurchased,
-                        onClick = { viewModel.selectTimerLength(10) },
-                        modifier = Modifier.width(90.dp)
-                    )
+
+                    Box(
+                        modifier = Modifier.wrapContentSize(),
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        if (!isTimerPurchased) {
+                            Text(
+                                text = "Buy $1.99",
+                                color = AppColors.TitleText,
+                                fontSize = 20.sp,
+                                fontFamily = RobotoSlabFontFamily(),
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier
+                                    .align(Alignment.TopCenter)
+                                    .offset(y = (-28).dp)
+                            )
+                        }
+
+                        TimerLengthChip(
+                            text = "10 min",
+                            isSelected = uiState.timerLength == 10,
+                            isUpgrade = !isTimerPurchased,
+                            onClick = { viewModel.selectTimerLength(10) },
+                            modifier = Modifier.width(110.dp)
+                        )
+                    }
                 }
             }
             
@@ -380,33 +403,45 @@ fun TimerLengthChip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val backgroundColor = if (isSelected) Color(0xFF613923) else Color(0xFF312117)
+
     Box(
         modifier = modifier
             .height(44.dp)
             .clip(RoundedCornerShape(ResponsiveAppRadius.Medium))
-            .background(
-                if (isSelected) Color(0xFF613923) else Color(0xFF312117)
-            )
+            .background(backgroundColor)
             .border(
                 width = ResponsiveAppBorders.Medium,
                 color = Color(0xFFAD8E7D),
                 shape = RoundedCornerShape(ResponsiveAppRadius.Medium)
             )
+            .let { base ->
+                if (isUpgrade) {
+                    base
+                        .graphicsLayer { alpha = 0.85f }
+                        .drawWithContent {
+                            drawContent()
+                            drawRect(Color(0x33000000))
+                        }
+                } else base
+            }
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             if (isUpgrade) {
-                Image(
+                Icon(
                     painter = painterResource(Res.drawable.ic_lock),
                     contentDescription = "Locked",
-                    modifier = Modifier.size(14.dp),
-                    colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color(0xFFAD8E7D))
+                    tint = Color(0xFFAD8E7D),
+                    modifier = Modifier.size(30.dp)
                 )
             }
+
             Text(
                 text = text,
                 color = Color(0xFFAD8E7D),
@@ -416,6 +451,18 @@ fun TimerLengthChip(
             )
         }
     }
+}
+
+@Composable
+fun UpgradePriceLabel(price: String) {
+    Text(
+        text = "Buy $price",
+        color = Color(0xFFAD8E7D),
+        fontSize = 12.sp,
+        fontFamily = RobotoSlabFontFamily(),
+        fontWeight = FontWeight.Light,
+        modifier = Modifier.padding(bottom = 4.dp)
+    )
 }
 
 @Composable
